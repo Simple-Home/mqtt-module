@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'name' => 'ExampleLight'
+    'name' => 'MQTT'
 ];

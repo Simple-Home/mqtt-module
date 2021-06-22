@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\ExampleBinding\Providers;
+namespace Modules\MQTT\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class ExampleBindingServiceProvider extends ServiceProvider
+class MQTTServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -46,10 +46,10 @@ class ExampleBindingServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('ExampleBinding.php'),
+            __DIR__.'/../Config/config.php' => config_path('MQTT.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'exampleBinding'
+            __DIR__.'/../Config/config.php', 'MQTT'
         );
     }
 
@@ -60,7 +60,7 @@ class ExampleBindingServiceProvider extends ServiceProvider
      */
     public function registerViews()
     {
-        $viewPath = resource_path('views/modules/exampleBinding');
+        $viewPath = resource_path('views/modules/MQTT');
 
         $sourcePath = __DIR__.'/../Resources/views';
 
@@ -69,8 +69,8 @@ class ExampleBindingServiceProvider extends ServiceProvider
         ],'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/exampleBinding';
-        }, \Config::get('view.paths')), [$sourcePath]), 'exampleBinding');
+            return $path . '/modules/MQTT';
+        }, \Config::get('view.paths')), [$sourcePath]), 'MQTT');
     }
 
     /**
@@ -80,12 +80,12 @@ class ExampleBindingServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $langPath = resource_path('lang/modules/exampleBinding');
+        $langPath = resource_path('lang/modules/MQTT');
 
         if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'exampleBinding');
+            $this->loadTranslationsFrom($langPath, 'MQTT');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'exampleBinding');
+            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'MQTT');
         }
     }
 

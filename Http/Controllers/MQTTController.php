@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\ExampleBinding\Http\Controllers;
+namespace Modules\MQTT\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-class ExampleBindingController extends Controller
+class MQTTController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class ExampleBindingController extends Controller
      */
     public function index()
     {
-        return view('exampleBinding::index');
+        return view('MQTT::index');
     }
 
     /**
@@ -23,7 +23,7 @@ class ExampleBindingController extends Controller
      */
     public function create()
     {
-        return view('exampleBinding::create');
+        return view('MQTT::create');
     }
 
     /**
@@ -41,7 +41,7 @@ class ExampleBindingController extends Controller
      */
     public function show()
     {
-        return view('exampleBinding::show');
+        return view('MQTT::show');
     }
 
     /**
@@ -50,7 +50,7 @@ class ExampleBindingController extends Controller
      */
     public function edit()
     {
-        return view('exampleBinding::edit');
+        return view('MQTT::edit');
     }
 
     /**

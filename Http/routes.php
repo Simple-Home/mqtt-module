@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'exampleLight', 'namespace' => 'Modules\ExampleBinding\Http\Controllers'], function()
+Route::group(['middleware' => 'web', 'prefix' => 'MQTT', 'namespace' => 'Modules\MQTT\Http\Controllers'], function()
 {
-    Route::get('/', 'ExampleBindingController@index');
+    Route::get('/', 'MQTTController@index');
 });
