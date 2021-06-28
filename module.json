@@ -1,7 +1,7 @@
 {
     "name": "MQTT",
     "alias": "MQTT",
-    "description": "",
+    "description": "A MQTT integration for Simple Home",
     "keywords": [],
     "active": 1,
     "order": 0,

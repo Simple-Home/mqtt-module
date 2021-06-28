@@ -15,27 +15,17 @@ class MQTT extends light
     public function __construct($meta){
         $this->meta = $meta;
         $this->features = $this->getFeatures($this);
-        $this->settings = $meta['property']->settings;
+        $this->settings = $meta['settings'];
 
         $this->mqttConnected = false;
 
         // MQTT Host Settings
-        $host = "10.0.0.200";
+        $host = $this->settings['integration']['simplehome.integrations.MQTT.host'];
         $port = 1883;
-        $username = "";
-        $password = "";
+        $username = $this->settings['integration']['simplehome.integrations.MQTT.username'];
+        $password = $this->settings['integration']['simplehome.integrations.MQTT.password'];
         $will = "";
         $clientID = "SimpleHome".rand(1,100);
-
-        // Example Settings From Device
-        $this->settings = [
-            "state-topic" => "testDevice/command",
-            "brightness-topic" => "testDevice/command",
-            "color-topic" => "testDevice/command",
-            "effect-topic" => "testDevice/command",
-            "colorTemp-topic" => "testDevice/command",
-            "status-topic" => "testDevice/status"
-        ];
 
         //Create MQTT Connection
         $this->MQTT = new \Modules\MQTT\phpMQTT($host, $port, $clientID);
@@ -52,11 +42,11 @@ class MQTT extends light
         if(!$this->mqttConnected) return;
         //This is where you control the light
 
-        $this->MQTT->publish($this->settings['state-topic'], $value);
+        $this->MQTT->publish($this->settings['device']['commandtopic'], $value);
         $this->setState('state', $value);
 
         if(isset($args['brightness'])){
-            $this->MQTT->publish($this->settings['brightness-topic'], $args['brightness']);
+            $this->MQTT->publish($this->settings['device']['commandtopic'], $args['brightness']);
             $this->setState('brightness', $args['brightness']);
         }
         $this->MQTT->close();
@@ -68,7 +58,7 @@ class MQTT extends light
         //To just control the brightness use this
 
         //Brightness control code here
-        $this->MQTT->publish($this->settings['brightness-topic'], $value);
+        $this->MQTT->publish($this->settings['device']['commandtopic'], $value);
         $this->setState('brightness', $value);
         $this->MQTT->close();
     }
@@ -79,7 +69,7 @@ class MQTT extends light
         //To just control the color use this
 
         //Color control code here
-        $this->MQTT->publish($this->settings['color-topic'], $value);
+        $this->MQTT->publish($this->settings['device']['commandtopic'], $value);
         $this->setState('color', $value);
         $this->MQTT->close();
     }
@@ -90,7 +80,7 @@ class MQTT extends light
         //To just control the effect use this
 
         //Effect control code here
-        $this->MQTT->publish($this->settings['effect-topic'], $value);
+        $this->MQTT->publish($this->settings['device']['commandtopic'], $value);
         $this->setState('effect', $value);
         $this->MQTT->close();
     }
@@ -101,7 +91,7 @@ class MQTT extends light
         //To just control the colorTemp use this
 
         //ColorTemp control code here
-        $this->MQTT->publish($this->settings['colorTemp-topic'], $value);
+        $this->MQTT->publish($this->settings['device']['commandtopic'], $value);
         $this->setState('colorTemp', $value);
         $this->MQTT->close();
     }

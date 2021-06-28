@@ -9,15 +9,31 @@ use App\PropertyTypes\toggle\toggle;
  */
 class MQTT extends toggle
 {
-    public $supportedAttributes = ["wifi","battery","uptime", "s/n", "model"];
+    public $supportedAttributes = ["connected"];
 
     public function __construct($meta){
         $this->meta = $meta;
         $this->features = $this->getFeatures($this);
-        $this->settings = $meta['property']->settings;
+        $this->settings = $meta['settings'];
 
-        //Set property properties, these can be anything!
-        //$this->setAttributes('s/n', "DMRM36078");
+        $this->mqttConnected = false;
+
+        // MQTT Host Settings
+        $host = $this->settings['integration']['simplehome.integrations.MQTT.host'];
+        $port = 1883;
+        $username = $this->settings['integration']['simplehome.integrations.MQTT.username'];
+        $password = $this->settings['integration']['simplehome.integrations.MQTT.password'];
+        $will = "";
+        $clientID = "SimpleHome".rand(1,100);
+
+        //Create MQTT Connection
+        $this->MQTT = new \Modules\MQTT\phpMQTT($host, $port, $clientID);
+        if($this->MQTT){
+            if($this->MQTT->connect(true, $will, $username, $password)){
+                $this->mqttConnected = true;
+            }
+        }
+        $this->setAttributes('connected', (int)$this->mqttConnected);
     }
 
     //API (GET): http://localhost/api/v2/device/(hostname)/state/(value)
@@ -25,6 +41,7 @@ class MQTT extends toggle
         //This is where you control the light
 
         //This is how you notify Simple Home of the state change
+        $this->MQTT->publish($this->settings['device']['commandtopic'], $value);
         $this->setState('state', $value);
     }
 }
