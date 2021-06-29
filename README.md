@@ -37,18 +37,18 @@
 
 ## Config Keys
 #### Integration Settings
-*  ```simplehome.integrations.MQTT.host```
-*  ```simplehome.integrations.MQTT.port```
-*  ```simplehome.integrations.MQTT.username```
-*  ```simplehome.integrations.MQTT.password```
+*  ```host```
+*  ```port```
+*  ```username```
+*  ```password```
 #### Device Type: light Settings
-*  ```simplehome.device.(DeviceID).commandtopic```
-*  ```simplehome.device.(DeviceID).brightnesstopic```
-*  ```simplehome.device.(DeviceID).colortopic```
-*  ```simplehome.device.(DeviceID).effecttopic```
-*  ```simplehome.device.(DeviceID).colortemptopic```
+*  ```commandtopic```
+*  ```brightnesstopic```
+*  ```colortopic```
+*  ```effecttopic```
+*  ```colortemptopic```
 #### Device Type: toggle Settings
-*  ```simplehome.device.(DeviceID).commandtopic```
+*  ```commandtopic```
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
