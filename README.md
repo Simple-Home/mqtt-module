@@ -28,6 +28,10 @@
   </p>
 </p>
 
+## Requirements
+*  A MQTT Broker
+*  Simple Home Server
+
 ## Installation
 ```composer require thebradleysanders/mqtt-module```
 
