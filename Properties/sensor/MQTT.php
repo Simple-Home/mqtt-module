@@ -26,7 +26,7 @@ class MQTT extends sensor
         $will = "";
         $clientID = "SimpleHome".rand(1,100);
 
-        //Create MQTT Connection
+        // Create MQTT Connection
         $this->MQTT = new \Modules\MQTT\phpMQTT($host, $port, $clientID);
         if($this->MQTT){
             if($this->MQTT->connect(true, $will, $username, $password)){
@@ -36,11 +36,11 @@ class MQTT extends sensor
         $this->setAttributes('connected', (int)$this->mqttConnected);
     }
 
-    //API (GET): http://localhost/api/v2/device/(hostname)/state/(value)
+    // API (GET): http://localhost/api/v2/device/(hostname)/state/(value)
     public function state($value){
-        //This is where you control the light
+        // This is where you control the light
 
-        //This is how you notify Simple Home of the state change
+        // This is how you notify Simple Home of the state change
         $this->setState('state', $value);
     }
 

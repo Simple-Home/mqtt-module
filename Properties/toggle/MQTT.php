@@ -5,7 +5,7 @@ use App\PropertyTypes\toggle\toggle;
 use App\Helpers\SettingManager;
 
 /**
- * Class Example
+ * Class MQTT
  * @package App\PropertyTypes\toggle
  */
 class MQTT extends toggle
@@ -36,13 +36,13 @@ class MQTT extends toggle
         $this->setAttributes('connected', (int)$this->mqttConnected);
     }
 
-    //API (GET): http://localhost/api/v2/device/(hostname)/state/(value)
+    // API (GET): http://localhost/api/v2/device/(hostname)/state/(value)
     public function state($value){
-        //This is where you control the light
-
-        //This is how you notify Simple Home of the state change
+        // This is where you control the light
         $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
         $this->MQTT->publish($topic, $value);
+
+        // This is how you notify Simple Home of the state change
         $this->setState('state', $value);
     }
 }
