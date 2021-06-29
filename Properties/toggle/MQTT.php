@@ -19,10 +19,10 @@ class MQTT extends toggle
         $this->mqttConnected = false;
 
         // MQTT Host Settings
-        $host = SettingManager::get('host', 'mqtt');
-        $port = SettingManager::get('port', 'mqtt');
-        $username = SettingManager::get('username', 'mqtt');
-        $password = SettingManager::get('password', 'mqtt');
+        $host = SettingManager::get('host', 'mqtt')['value'];
+        $port = SettingManager::get('port', 'mqtt')['value'];
+        $username = SettingManager::get('username', 'mqtt')['value'];
+        $password = SettingManager::get('password', 'mqtt')['value'];
         $will = "";
         $clientID = "SimpleHome".rand(1,100);
 
@@ -39,7 +39,7 @@ class MQTT extends toggle
     // API (GET): http://localhost/api/v2/device/(hostname)/state/(value)
     public function state($value){
         // This is where you control the light
-        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
+        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id)['value'];
         $this->MQTT->publish($topic, $value);
 
         // This is how you notify Simple Home of the state change

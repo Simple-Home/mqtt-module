@@ -19,10 +19,10 @@ class MQTT extends light
         $this->mqttConnected = false;
 
         // MQTT Host Settings
-        $host = SettingManager::get('host', 'mqtt');
-        $port = SettingManager::get('port', 'mqtt');
-        $username = SettingManager::get('username', 'mqtt');
-        $password = SettingManager::get('password', 'mqtt');
+        $host = SettingManager::get('host', 'mqtt')['value'];
+        $port = SettingManager::get('port', 'mqtt')['value'];
+        $username = SettingManager::get('username', 'mqtt')['value'];
+        $password = SettingManager::get('password', 'mqtt')['value'];
         $will = "";
         $clientID = "SimpleHome".rand(1,100);
 
@@ -41,12 +41,12 @@ class MQTT extends light
         if(!$this->mqttConnected) return;
 
         // This is where you control the light
-        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
+        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id)['value'];
         $this->MQTT->publish($topic, $value);
         $this->setState('state', $value);
 
         if(isset($args['brightness'])){
-            $topic = SettingManager::get('brightnesstopic', 'device-'.$this->meta['device']->id);
+            $topic = SettingManager::get('brightnesstopic', 'device-'.$this->meta['device']->id)['value'];
             $this->MQTT->publish($topic, $args['brightness']);
             $this->setState('brightness', $args['brightness']);
         }
@@ -58,7 +58,7 @@ class MQTT extends light
         if(!$this->mqttConnected) return;
 
         // Brightness control code here
-        $topic = SettingManager::get('brightnesstopic', 'device-'.$this->meta['device']->id);
+        $topic = SettingManager::get('brightnesstopic', 'device-'.$this->meta['device']->id)['value'];
         $this->MQTT->publish($topic, $value);
         $this->setState('brightness', $value);
         $this->MQTT->close();
@@ -69,7 +69,7 @@ class MQTT extends light
         if(!$this->mqttConnected) return;
 
         // Color control code here
-        $topic = SettingManager::get('colortopic', 'device-'.$this->meta['device']->id);
+        $topic = SettingManager::get('colortopic', 'device-'.$this->meta['device']->id)['value'];
         $this->MQTT->publish($topic, $value);
         $this->setState('color', $value);
         $this->MQTT->close();
@@ -80,7 +80,7 @@ class MQTT extends light
         if(!$this->mqttConnected) return;
 
         // Effect control code here
-        $topic = SettingManager::get('effecttopic', 'device-'.$this->meta['device']->id);
+        $topic = SettingManager::get('effecttopic', 'device-'.$this->meta['device']->id)['value'];
         $this->MQTT->publish($topic, $value);
         $this->setState('effect', $value);
         $this->MQTT->close();
@@ -91,7 +91,7 @@ class MQTT extends light
         if(!$this->mqttConnected) return;
 
         // ColorTemp control code here
-        $topic = SettingManager::get('colortemptopic', 'device-'.$this->meta['device']->id);
+        $topic = SettingManager::get('colortemptopic', 'device-'.$this->meta['device']->id)['value'];
         $this->MQTT->publish($topic, $value);
         $this->setState('colorTemp', $value);
         $this->MQTT->close();

@@ -19,10 +19,10 @@ class MQTT extends sensor
         $this->mqttConnected = false;
 
         // MQTT Host Settings
-        $host = SettingManager::get('host', 'mqtt');
-        $port = SettingManager::get('port', 'mqtt');
-        $username = SettingManager::get('username', 'mqtt');
-        $password = SettingManager::get('password', 'mqtt');
+        $host = SettingManager::get('host', 'mqtt')['value'];
+        $port = SettingManager::get('port', 'mqtt')['value'];
+        $username = SettingManager::get('username', 'mqtt')['value'];
+        $password = SettingManager::get('password', 'mqtt')['value'];
         $will = "";
         $clientID = "SimpleHome".rand(1,100);
 
