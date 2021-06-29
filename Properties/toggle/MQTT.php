@@ -2,9 +2,10 @@
 namespace Modules\MQTT\Properties\toggle;
 
 use App\PropertyTypes\toggle\toggle;
+use App\Helpers\SettingManager;
 
 /**
- * Class MQTT
+ * Class Example
  * @package App\PropertyTypes\toggle
  */
 class MQTT extends toggle
@@ -14,23 +15,16 @@ class MQTT extends toggle
     public function __construct($meta){
         $this->meta = $meta;
         $this->features = $this->getFeatures($this);
-        $this->settings = $meta['settings'];
 
         $this->mqttConnected = false;
 
-        // Check if the needed config Keys are set
-        if(!array_key_exists("host", $this->settings['integration'])
-        || !array_key_exists("port", $this->settings['integration'])){
-            exit("The MQTT Integration has not been setup"); //TODO: we need a log to report to
-        }
-
         // MQTT Host Settings
-        $host = $this->settings['integration']['host'];
-        $port = $this->settings['integration']['port'];
-        $username = $this->settings['integration']['username'];
-        $password = $this->settings['integration']['password'];
+        $host = SettingManager::get('host', 'mqtt');
+        $port = SettingManager::get('port', 'mqtt');
+        $username = SettingManager::get('username', 'mqtt');
+        $password = SettingManager::get('password', 'mqtt');
         $will = "";
-        $clientID = "SimpleHome".rand(1, 100);
+        $clientID = "SimpleHome".rand(1,100);
 
         //Create MQTT Connection
         $this->MQTT = new \Modules\MQTT\phpMQTT($host, $port, $clientID);
@@ -43,11 +37,12 @@ class MQTT extends toggle
     }
 
     //API (GET): http://localhost/api/v2/device/(hostname)/state/(value)
-    public function state($value){ 
+    public function state($value){
         //This is where you control the light
 
         //This is how you notify Simple Home of the state change
-        $this->MQTT->publish($this->settings['device']['commandtopic'], $value);
+        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
+        $this->MQTT->publish($topic, $value);
         $this->setState('state', $value);
     }
 }

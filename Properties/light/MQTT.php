@@ -2,7 +2,7 @@
 namespace Modules\MQTT\Properties\light;
 
 use App\PropertyTypes\light\light;
-use phpMQTT;
+use App\Helpers\SettingManager;
 
 /**
  * Class MQTT
@@ -15,23 +15,16 @@ class MQTT extends light
     public function __construct($meta){
         $this->meta = $meta;
         $this->features = $this->getFeatures($this);
-        $this->settings = $meta['settings'];
 
         $this->mqttConnected = false;
 
-        // Check if the needed config Keys are set
-        if(!array_key_exists("host", $this->settings['integration'])
-        || !array_key_exists("port", $this->settings['integration'])){
-            exit("The MQTT Integration has not been setup"); //TODO: we need a log to report to
-        }
-
         // MQTT Host Settings
-        $host = $this->settings['integration']['host'];
-        $port = $this->settings['integration']['port'];
-        $username = $this->settings['integration']['username'];
-        $password = $this->settings['integration']['password'];
+        $host = SettingManager::get('host', 'mqtt');
+        $port = SettingManager::get('port', 'mqtt');
+        $username = SettingManager::get('username', 'mqtt');
+        $password = SettingManager::get('password', 'mqtt');
         $will = "";
-        $clientID = "SimpleHome".rand(1, 100);
+        $clientID = "SimpleHome".rand(1,100);
 
         //Create MQTT Connection
         $this->MQTT = new \Modules\MQTT\phpMQTT($host, $port, $clientID);
@@ -44,15 +37,17 @@ class MQTT extends light
     }
 
     //API (GET): http://localhost/api/v2/device/(hostname)/state/(value)?color=red
-    public function state($value, $args){ 
+    public function state($value, $args){
         if(!$this->mqttConnected) return;
         //This is where you control the light
 
-        $this->MQTT->publish($this->settings['device']['commandtopic'], $value);
+        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
+        $this->MQTT->publish($topic, $value);
         $this->setState('state', $value);
 
         if(isset($args['brightness'])){
-            $this->MQTT->publish($this->settings['device']['rightnesstopic'], $args['brightness']);
+            $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
+            $this->MQTT->publish($topic, $args['brightness']);
             $this->setState('brightness', $args['brightness']);
         }
         $this->MQTT->close();
@@ -64,7 +59,8 @@ class MQTT extends light
         //To just control the brightness use this
 
         //Brightness control code here
-        $this->MQTT->publish($this->settings['device']['brightnesstopic'], $value);
+        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
+        $this->MQTT->publish($topic, $value);
         $this->setState('brightness', $value);
         $this->MQTT->close();
     }
@@ -75,18 +71,20 @@ class MQTT extends light
         //To just control the color use this
 
         //Color control code here
-        $this->MQTT->publish($this->settings['device']['colortopic'], $value);
+        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
+        $this->MQTT->publish($topic, $value);
         $this->setState('color', $value);
         $this->MQTT->close();
     }
-    
+
     //API (GET): http://localhost/api/v2/device/(hostname)/effect/(value)
     public function effect($value){
         if(!$this->mqttConnected) return;
         //To just control the effect use this
 
         //Effect control code here
-        $this->MQTT->publish($this->settings['device']['effecttopic'], $value);
+        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
+        $this->MQTT->publish($topic, $value);
         $this->setState('effect', $value);
         $this->MQTT->close();
     }
@@ -97,7 +95,8 @@ class MQTT extends light
         //To just control the colorTemp use this
 
         //ColorTemp control code here
-        $this->MQTT->publish($this->settings['device']['colortemptopic'], $value);
+        $topic = SettingManager::get('commandtopic', 'device-'.$this->meta['device']->id);
+        $this->MQTT->publish($topic, $value);
         $this->setState('colorTemp', $value);
         $this->MQTT->close();
     }
