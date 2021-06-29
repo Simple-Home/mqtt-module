@@ -1,7 +1,4 @@
 <p align="center">
-  <a href="https://github.com/Simple-Home/Simple-Home">
-    <img src="./public/images/logo.png" height="100" width="100">
-  </a>
   <h1 align="center">Simple Home Module - MQTT</h3>
   <h3 align="center">A MQTT Module for Simple Home</h3>
   <p align="center">
@@ -36,18 +33,18 @@
 
 ## Config Keys
 #### Integration Settings
-*  simplehome.integrations.MQTT.host
-*  simplehome.integrations.MQTT.port
-*  simplehome.integrations.MQTT.username
-*  simplehome.integrations.MQTT.password
+*  ```simplehome.integrations.MQTT.host```
+*  ```simplehome.integrations.MQTT.port```
+*  ```simplehome.integrations.MQTT.username```
+*  ```simplehome.integrations.MQTT.password```
 #### Device Type: light Settings
-*  simplehome.device.(DeviceID).commandtopic
-*  simplehome.device.(DeviceID).brightnesstopic
-*  simplehome.device.(DeviceID).colortopic
-*  simplehome.device.(DeviceID).effecttopic
-*  simplehome.device.(DeviceID).colortemptopic
+*  ```simplehome.device.(DeviceID).commandtopic```
+*  ```simplehome.device.(DeviceID).brightnesstopic```
+*  ```simplehome.device.(DeviceID).colortopic```
+*  ```simplehome.device.(DeviceID).effecttopic```
+*  ```simplehome.device.(DeviceID).colortemptopic```
 #### Device Type: toggle Settings
-*  simplehome.device.(DeviceID).commandtopic
+*  ```simplehome.device.(DeviceID).commandtopic```
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
