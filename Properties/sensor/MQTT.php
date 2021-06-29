@@ -4,7 +4,7 @@ namespace Modules\MQTT\Properties\sensor;
 use App\PropertyTypes\sensor\sensor;
 
 /**
- * Class Example
+ * Class MQTT
  * @package App\PropertyTypes\sensor
  */
 class MQTT extends sensor
@@ -18,13 +18,19 @@ class MQTT extends sensor
 
         $this->mqttConnected = false;
 
+        // Check if the needed config Keys are set
+        if(!array_key_exists("host", $this->settings['integration'])
+        || !array_key_exists("port", $this->settings['integration'])){
+            exit("The MQTT Integration has not been setup"); //TODO: we need a log to report to
+        }
+
         // MQTT Host Settings
-        $host = $this->settings['integration']['simplehome.integrations.MQTT.host'];
-        $port = 1883;
-        $username = $this->settings['integration']['simplehome.integrations.MQTT.username'];
-        $password = $this->settings['integration']['simplehome.integrations.MQTT.password'];
+        $host = $this->settings['integration']['host'];
+        $port = $this->settings['integration']['port'];
+        $username = $this->settings['integration']['username'];
+        $password = $this->settings['integration']['password'];
         $will = "";
-        $clientID = "SimpleHome".rand(1,100);
+        $clientID = "SimpleHome".rand(1, 100);
 
         //Create MQTT Connection
         $this->MQTT = new \Modules\MQTT\phpMQTT($host, $port, $clientID);
