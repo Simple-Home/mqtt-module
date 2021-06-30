@@ -3,7 +3,7 @@
 namespace Modules\MQTT\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use App\Helpers\SettingManager;
 
 class MQTTServiceProvider extends ServiceProvider
 {
@@ -22,9 +22,6 @@ class MQTTServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerTranslations();
-        $this->registerConfig();
-        $this->registerViews();
-        $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
 
@@ -36,41 +33,6 @@ class MQTTServiceProvider extends ServiceProvider
     public function register()
     {
         //
-    }
-
-    /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('MQTT.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'MQTT'
-        );
-    }
-
-    /**
-     * Register views.
-     *
-     * @return void
-     */
-    public function registerViews()
-    {
-        $viewPath = resource_path('views/modules/MQTT');
-
-        $sourcePath = __DIR__.'/../Resources/views';
-
-        $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
-
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/MQTT';
-        }, \Config::get('view.paths')), [$sourcePath]), 'MQTT');
     }
 
     /**
@@ -87,15 +49,6 @@ class MQTTServiceProvider extends ServiceProvider
         } else {
             $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'MQTT');
         }
-    }
-
-    /**
-     * Register an additional directory of factories.
-     * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
-     */
-    public function registerFactories()
-    {
- 
     }
 
     /**
