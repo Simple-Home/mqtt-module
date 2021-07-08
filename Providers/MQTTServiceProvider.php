@@ -14,6 +14,15 @@ class MQTTServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
+    /** Settings this integration needs to create  */
+    public function createSettings()
+    {
+        SettingManager::register('host', 'localhost', 'string', 'mqtt');
+        SettingManager::register('port', '1883', 'string', 'mqtt');
+        SettingManager::register('username', '', 'string', 'mqtt');
+        SettingManager::register('password', '', 'string', 'mqtt');
+    }
+
     /**
      * Boot the application events.
      *
@@ -23,6 +32,7 @@ class MQTTServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->createSettings();
     }
 
     /**
